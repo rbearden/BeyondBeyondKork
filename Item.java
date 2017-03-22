@@ -90,14 +90,42 @@ public class Item
 	}
 	
 	// Retrieve the item's current location
-	public Location getLocation()
-	{	return this.location;
+	public Object getLocation()
+	{	Object location;
+		
+		// Assign location to correct location type
+		if(this.location.getLocation() instanceof Room)
+			location = (Room)this.location.getLocation();
+		else
+			location = (Container)this.location.getLocation();
+		
+		return location;
 	}
 	
 	// Change the item's current location
-	public boolean setLocation(Location location) throws InvalidSetValueException
-	{	boolean setSuccessful = true;
+	public boolean setLocation(Object newLocation) throws InvalidSetValueException
+	{	boolean setSuccessful = false;
+	
+		// Remove item from previous location
+		if(this.location.isRoom())
+		{	this.location.getRoom().removeItem(this);
 		
+		}
+		else if(this.location.isContainer())
+		{	this.location.getContainer().removeItem(this);
+			
+		}
+		
+		// Add item to new location
+		if(((Location)newLocation).isRoom())
+		{	((Location)newLocation).getRoom().addItem(this);
+			
+		}
+		else if(((Location)newLocation).isContainer())
+		{	((Location)newLocation).getContainer().addItem(this);
+			
+		}
+	
 		return setSuccessful;
 	}
 	
