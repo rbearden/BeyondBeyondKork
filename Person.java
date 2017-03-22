@@ -11,5 +11,10 @@ public class Person extends Container
 		this.health = 100;
 	}
 	
+	@Override
+	public Location getLocation()
+	{	return super.getLocation();	
+	}
+	
 	
 }
